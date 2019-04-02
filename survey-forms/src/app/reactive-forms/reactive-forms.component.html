@@ -1,0 +1,195 @@
+<body>
+  <h1 id="title">Survey Form</h1>
+  <div id="form-outer">
+    <p id="description">
+      Let us know how we can improve freeCodeCamp
+    </p>
+    <form [formGroup]="surveyForm" (ngSubmit)="onSubmit()" id="survey-form">
+      <div formGroupName="student">
+        <div class="rowTab">
+          <div class="labels">
+            <label id="name-label" for="name1">* Name: </label>
+          </div>
+          <div class="rightTab">
+            <input
+              formControlName="name"
+              autofocus=""
+              type="text"
+              id="name1"
+              class="input-field"
+              placeholder="Enter your name"
+              required=""
+            />
+            <div
+              class="alert alert-danger"
+              *ngIf="surveyForm.controls.student.controls.name.errors?.required"
+            >
+              Name is required
+            </div>
+            <div
+              class="alert alert-danger"
+              *ngIf="
+                surveyForm.controls.student.controls.name.errors?.minlength
+              "
+            >
+              Length of name has least 5 characters
+            </div>
+          </div>
+        </div>
+        <div class="rowTab">
+          <div class="labels">
+            <label id="email-label" for="email">* Email: </label>
+          </div>
+          <div class="rightTab">
+            <input
+              formControlName="email"
+              autofocus=""
+              type="text"
+              id="email"
+              class="input-field"
+              placeholder="Enter your email"
+              required=""
+            />
+            <div
+              class="alert alert-danger"
+              *ngIf="f.student.controls.email.errors?.email"
+            >
+              Value has to be a valid email address.
+            </div>
+            <div
+              class="alert alert-danger"
+              *ngIf="f.student.controls.email.errors?.required"
+            >
+              Email is required.
+            </div>
+          </div>
+        </div>
+        <div class="rowTab">
+          <div class="labels">
+            <label id="number-label" for="age">* Age: </label>
+          </div>
+          <div class="rightTab">
+            <input
+              formControlName="age"
+              type="number"
+              id="number"
+              min="1"
+              max="125"
+              class="input-field"
+              placeholder="Age"
+            />
+            <div
+              class="alert alert-danger"
+              [hidden]="
+                surveyForm.controls.student.controls.age.valid ||
+                surveyForm.controls.student.controls.age.valid
+              "
+            >
+              Age is required
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="rowTab">
+        <div class="labels">
+          <label for="currentPos"
+            >Which option best describes your current role?</label
+          >
+        </div>
+        <div class="rightTab">
+          <select formControlName="job" id="dropdown" class="dropdown">
+            <option disabled value>Select an option</option>
+            <option *ngFor="let job of jobs" [value]="job">{{ job }}</option>
+          </select>
+        </div>
+      </div>
+      <div class="rowTab">
+        <div class="labels">
+          <label for="userRating"
+            >* How likely is that you would recommend freeCodeCamp to a
+            friend?</label
+          >
+        </div>
+        <div class="rightTab">
+          <ul style="list-style: none;">
+            <li *ngFor="let recommend of recomends" class="radio">
+              <label
+                ><input
+                  formControlName="recommend"
+                  value="{{ recommend }}"
+                  type="radio"
+                  class="userRatings"
+                />{{ recommend }}</label
+              >
+            </li>
+          </ul>
+          <div
+            class="alert alert-danger"
+            [hidden]="
+              surveyForm.controls.recommend.valid ||
+              surveyForm.controls.recommend.valid
+            "
+          >
+            Recommend is required
+          </div>
+        </div>
+      </div>
+      <div class="rowTab">
+        <div class="labels">
+          <label for="most-like">What do you like most in FCC: </label>
+        </div>
+        <div class="rightTab">
+          <select formControlName="fcc" id="most-like" class="dropdown">
+            <option disabled selected value>Select an option</option>
+            <option *ngFor="let fcc of fccs" [value]="fcc">{{ fcc }}</option>
+          </select>
+        </div>
+      </div>
+      <div class="rowTab">
+        <div class="labels">
+          <label for="preferences"
+            >Things that should be improved in the future<br />(Check all that
+            apply):
+          </label>
+        </div>
+        <div class="rightTab">
+          <ul id="preferences" style="list-style: none;">
+            <li>
+              <label>
+                <input type="checkbox" formControlName="unselectd" />
+                Select/Unselect all
+              </label>
+            </li>
+            <li formArrayName="thing" *ngFor="let th of things; let i = index">
+              <label
+                ><input
+                  [formControlName]="i"
+                  type="checkbox"
+                  class="userRatings"
+                />{{ things[i] }}</label
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="rowTab">
+        <div class="labels">
+          <label for="comments">Any Comments or Suggestions?</label>
+        </div>
+        <div class="rightTab">
+          <textarea
+            formControlName="commend"
+            id="comments"
+            class="input-field"
+            style="height:50px;resize:vertical;"
+            placeholder="Enter your comment here..."
+          ></textarea>
+        </div>
+      </div>
+      <button [disabled]="surveyForm.invalid" id="submit" type="submit">
+        Submit
+      </button>
+    </form>
+  </div>
+</body>
